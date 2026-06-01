@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Um campeonato psicodélico, tosco e bizarro para eleger o pior sósia do Léo Showza. Vote se tiver culhão!">
+  <title>🌀 Campeonato de Sósias do Léo Showza 👽</title>
+  <!-- Google Fonts para estilo psicodélico e moderno -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Rubik+Wet+Paint&family=Syne:wght@700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=1.1">
+
+</head>
+
+<body>
+
+  <!-- Fundo Animado de Lava Psicodélica -->
+  <div class="psychedelic-bg"></div>
+  <div class="orbs-container" id="orbsContainer"></div>
+
+  <!-- Cabeçalho Principal -->
+  <header class="app-header">
+    <div class="logo-area">
+      <img src="leo.png" class="logo-img left-emoji" alt="Léo Showza">
+      <h1 id="mainTitle" class="glitch-title">LÉO SHOWZA</h1>
+      <img src="leo.png" class="logo-img right-emoji" alt="Léo Showza">
+    </div>
+    <p class="tagline">O campeonato de sósias do Léo Showza mais escroto, bizarro e feio do planeta!</p>
+
+    <!-- Barra de Navegação -->
+    <nav class="nav-bar">
+      <button id="btnHome" class="nav-btn" onclick="switchTab('home')">🔒 🌀 Hospício</button>
+      <button id="btnRegister" class="nav-btn" onclick="switchTab('register')">🔒 📸 Enviar foto do Showza</button>
+      <button id="btnGallery" class="nav-btn active" onclick="switchTab('gallery')">🔥 Votação</button>
+      <button id="btnResults" class="nav-btn" onclick="switchTab('results')">🏆 Topo do Lixo</button>
+      <button id="btnConfig" class="nav-btn" onclick="switchTab('config')">🔒 ⚙️ Configs</button>
+    </nav>
+  </header>
+
+  <!-- Área Principal de Conteúdo (SPA) -->
+  <main class="content-container">
+
+    <!-- ABA 1: HOME -->
+    <section id="tab-home" class="tab-content">
+      <div class="glass-card welcome-card">
+        <h2 class="section-title">Bem-vindo ao Show de Aberrações do Léo Showza!</h2>
+        <p class="intro-text">
+          Sabe o Léo Showza? Aquele cara que jura que é o maior mestre da zueira de todos os tempos, mas cujas piadas
+          fariam até uma estátua de pedra chorar de vergonha?
+          <strong>Chegou a hora de encontrar os clones dele espalhados pelo mundo e decidir quem consegue honrar a lenda
+            de forma menos vergonhosa!</strong>
+        </p>
+
+        <div class="rules-box">
+          <h3>📜 Regras do Hospício Cósmico</h3>
+          <ul>
+            <li>🛸 <strong>Passo 1:</strong> Vá em "Enviar foto do Showza", escreva com quem o clone se parece e envie a
+              prova do crime.</li>
+            <li>🍌 <strong>Passo 2:</strong> Mande o link para o resto dos vagabundos irem votar e darem risada.</li>
+            <li>🔑 <strong>Passo 3:</strong> Para votar, digite a <strong>Senha Secreta</strong> do grupo. Sem senha,
+              sem voto, seu animal!</li>
+            <li>🏆 <strong>Passo 4:</strong> Acompanhe no "Topo do Lixo" quem é o sósia mais ridículo coroado como rei
+              das aberrações.</li>
+          </ul>
+        </div>
+
+        <div class="action-buttons">
+          <button class="btn btn-primary pulse-btn" onclick="switchTab('register')">Enviar foto do Showza 🚀</button>
+          <button class="btn btn-secondary" onclick="switchTab('gallery')">Ver os Clones 👁️</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABA 2: CADASTRO -->
+    <section id="tab-register" class="tab-content">
+      <div class="glass-card">
+        <h2 class="section-title text-glow">Enviar foto do Showza</h2>
+        <p class="section-subtitle">Mande a evidência de que a natureza cometeu um erro grave com esse clone:</p>
+
+        <!-- Progresso das inscrições -->
+        <div id="registrationProgressContainer" class="registration-progress-container" style="margin-bottom: 2rem;">
+          <div class="progress-label" style="margin-bottom: 0.5rem; font-weight: bold; color: var(--color-neon-cyan);">Vagas preenchidas: <span id="registrationCount">0</span> / 16</div>
+          <div class="progress-bar-bg" style="width: 100%; height: 12px; background: rgba(255,255,255,0.1); border-radius: 6px; overflow: hidden; border: 1px solid rgba(255,0,127,0.2);">
+            <div id="registrationProgressBar" class="progress-bar-fill" style="width: 0%; height: 100%; background: linear-gradient(95deg, var(--color-neon-pink), var(--color-neon-purple)); transition: width 0.4s ease;"></div>
+          </div>
+        </div>
+
+        <div id="registrationClosedMessage" class="registration-closed-message hidden" style="background: rgba(255,0,0,0.15); border-left: 5px solid var(--color-neon-pink); padding: 1.2rem; border-radius: 8px; margin-bottom: 2rem;">
+          <p style="color: #ffb3b3; font-weight: bold; margin: 0;">🚨 Inscrições encerradas! O campeonato de chaveamento já começou e está a todo vapor.</p>
+        </div>
+
+        <form id="registerForm" class="crazy-form" onsubmit="handleRegister(event)">
+          <div class="form-group">
+            <label for="submitterName">🙋‍♂️ Seu Nome (O Xangô / O Fofoqueiro):</label>
+            <input type="text" id="submitterName" required placeholder="Ex: Carlinhos Dedo-Duro" maxlength="30">
+          </div>
+
+
+          <div class="form-group">
+            <label for="lookalikeName">🤡 Com quem ele se parece? (O Clone):</label>
+            <input type="text" id="lookalikeName" required placeholder="Ex: Grávida de Taubaté" maxlength="50">
+          </div>
+
+          <div class="form-group">
+            <label for="imageUpload" class="file-label">
+              <span class="upload-icon">📸</span>
+              <span id="fileLabelText">Escolha a Foto Bizarra</span>
+              <span class="file-limit">(Máx. 10MB - a gente comprime esse lixo!)</span>
+            </label>
+            <input type="file" id="imageUpload" accept="image/*" required onchange="previewImage(event)">
+
+            <div id="imagePreviewContainer" class="preview-container hidden">
+              <img id="imagePreview" src="" alt="Prévia da loucura">
+              <button type="button" class="btn-remove-img" onclick="removePreview()">Remover Essa Bosta ❌</button>
+            </div>
+          </div>
+
+          <button type="submit" id="btnSubmitForm" class="btn btn-primary btn-block">Mandar Essa Porcaria Pro Espaço!
+            🚀</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ABA 3: GALERIA E VOTAÇÃO -->
+    <section id="tab-gallery" class="tab-content active">
+      <div class="gallery-header">
+        <h2 class="section-title">Copa do Mundo de Sósias</h2>
+        <p class="section-subtitle">Escolha o clone mais bizarro do dia e decida quem avança rumo ao topo do lixo!</p>
+
+        <!-- Atalho de senha opcional -->
+        <div class="password-quick-bar glass-card">
+          <label for="savedPassword">🔑 Senha de Votação Ativa:</label>
+          <input type="password" id="savedPassword" placeholder="Coloque a senha aqui, seu preguiçoso"
+            oninput="savePasswordLocal()">
+          <span class="password-tip">Salve a senha aqui para não ter que digitar essa porra a cada voto! 😉</span>
+        </div>
+      </div>
+
+      <!-- Duelo Ativo do Dia -->
+      <div id="activeMatchSection" class="active-match-section">
+        <!-- Inserido dinamicamente via JS -->
+        <div class="loading-state">
+          <div class="spinner">🌀</div>
+          <p>Buscando aberrações na Deep Web...</p>
+        </div>
+      </div>
+
+      <!-- Chaveamento do Campeonato -->
+      <div class="bracket-section">
+        <h2 class="section-title text-glow">Chaveamento Oficial</h2>
+        <p class="section-subtitle">O caminho da humilhação pública. Acompanhe a progressão dos clones!</p>
+        
+        <div class="bracket-scroll-wrapper">
+          <div id="bracketTree" class="bracket-tree">
+            <!-- Inserido dinamicamente via JS -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABA 4: RESULTADOS / PLACAR -->
+    <section id="tab-results" class="tab-content">
+      <div class="glass-card podium-card">
+        <h2 class="section-title text-glow">Ranking do Lixo Supremo</h2>
+        <p class="section-subtitle">Quem é o mais humilhado da rodada?</p>
+
+        <!-- Pódio visual engraçado -->
+        <div class="podium-container" id="podiumContainer">
+          <!-- Renderizado dinamicamente via JS -->
+        </div>
+
+        <!-- Lista completa de classificação -->
+        <div class="leaderboard-list">
+          <h3>📋 Lista dos Condenados</h3>
+          <ul id="leaderboardList">
+            <!-- Renderizado dinamicamente via JS -->
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABA 5: CONFIGURAÇÕES -->
+    <section id="tab-config" class="tab-content">
+      <div class="glass-card">
+        <h2 class="section-title text-glow">⚙️ Configurações da Zueira</h2>
+        <p class="section-subtitle">Ajuste os parâmetros intergalácticos do campeonato aqui.</p>
+
+        <form id="configForm" class="crazy-form" onsubmit="handleSaveConfig(event)">
+          <div class="form-group">
+            <label for="configFriendEmail">📧 E-mail do Alvo (Léo Showza):</label>
+            <input type="email" id="configFriendEmail" required placeholder="Ex: leoshowza@gmail.com"
+              style="background: rgba(255, 255, 255, 0.05); border: 2px solid rgba(157, 0, 255, 0.3); padding: 0.9rem; border-radius: 12px; color: #fff; font-family: var(--font-body); font-size: 1.1rem; outline: none; transition: all 0.3s;">
+            <span class="password-tip">Todos os novos cadastros e votos dispararão alertas para este e-mail!</span>
+          </div>
+
+          <div class="form-group">
+            <label for="configPassword">🔑 Senha Secreta do Campeonato (para salvar):</label>
+            <input type="password" id="configPassword" required placeholder="Digite a senha de votação para salvar"
+              style="background: rgba(255, 255, 255, 0.05); border: 2px solid rgba(157, 0, 255, 0.3); padding: 0.9rem; border-radius: 12px; color: #fff; font-family: var(--font-body); font-size: 1.1rem; outline: none; transition: all 0.3s;">
+          </div>
+
+          <button type="submit" id="btnSaveConfig" class="btn btn-primary btn-block">Salvar E-mail do Alvo 💾</button>
+        </form>
+
+        <hr style="border: 0; border-top: 1px dashed rgba(255,255,255,0.15); margin: 2.5rem 0;">
+
+        <!-- Seção de Gerenciamento do Torneio -->
+        <div class="tournament-admin-zone">
+          <h3 style="color: var(--color-neon-yellow); margin-bottom: 0.5rem; font-family: var(--font-title); font-size: 1.3rem;">⚡ Gerenciamento do Torneio</h3>
+          <p style="color: #bbb; margin-bottom: 1.5rem; font-size: 0.95rem;">Controles rápidos para testes e simulação do chaveamento.</p>
+          <div class="action-buttons" style="justify-content: flex-start; gap: 1rem;">
+            <button class="btn btn-secondary" onclick="adminAdvanceMatch()">Forçar Avanço de Dia ⏳</button>
+            <button class="btn btn-primary" onclick="adminMockTournament()">Gerar 16 Sósias Demo 🧬</button>
+          </div>
+        </div>
+
+        <hr style="border: 0; border-top: 1px dashed rgba(255,255,255,0.15); margin: 2.5rem 0;">
+
+        <div class="danger-zone">
+          <h3
+            style="color: var(--color-neon-pink); margin-bottom: 0.5rem; font-family: var(--font-title); font-size: 1.3rem;">
+            ⚠️ Zona de Perigo Crítico</h3>
+          <p style="color: #bbb; margin-bottom: 1.5rem; font-size: 0.95rem;">Cuidado! O botão abaixo vai apagar todas as
+            fotos e votos cadastrados sem dó nem piedade.</p>
+          <button class="btn btn-secondary" style="border-color: red; color: red;" onclick="promptReset()">Resetar Todo
+            o Campeonato 💣</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Modal de Votação (caso não tenha preenchido a senha rápida) -->
+  <div id="voteModal" class="modal-overlay hidden">
+    <div class="modal-content glass-card">
+      <h3>🔑 Alfândega dos Trouxas</h3>
+      <p>Coloque a porra da senha secreta para votar nessa desgraça:</p>
+      <h4 id="modalTargetName" class="target-name">Nome do Sósia</h4>
+
+      <div class="form-group">
+        <input type="password" id="modalPassword" placeholder="Senha, caralho!" class="modal-input">
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn-secondary" onclick="closeVoteModal()">Me arrependi ❌</button>
+        <button class="btn btn-primary" id="btnConfirmVote">Confirmar Voto! 🎉</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Customizado (Alerta, Confirmação e Prompt da Zueira) -->
+  <div id="customDialogModal" class="modal-overlay hidden">
+    <div class="modal-content glass-card dialog-modal-card">
+      <div class="dialog-icon" id="dialogIcon"
+        style="font-size: 3.5rem; margin-bottom: 1rem; animation: floatAround 4s ease-in-out infinite alternate;">👽
+      </div>
+      <h3 id="dialogTitle">Aviso Interdimensional</h3>
+      <p id="dialogMessage"
+        style="margin-bottom: 1.5rem; font-size: 1.1rem; line-height: 1.6; color: #eee; font-family: var(--font-body);">
+      </p>
+
+      <!-- Container para Prompt Input -->
+      <div id="dialogPromptContainer" class="form-group hidden">
+        <input type="password" id="dialogPromptInput" class="modal-input" placeholder="Digite aqui..."
+          style="background: rgba(255, 255, 255, 0.05); border: 2px solid rgba(157, 0, 255, 0.3); padding: 0.9rem; border-radius: 12px; color: #fff; font-family: var(--font-body); font-size: 1.1rem; outline: none; width: 100%; text-align: center; margin-bottom: 1rem;">
+      </div>
+
+      <div class="modal-actions" id="dialogActions">
+        <!-- Inserido dinamicamente via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Rodapé -->
+  <footer class="app-footer">
+    <p>Feito com 🌀 e muito ódio/café para divertir a galera.</p>
+  </footer>
+
+  <!-- Elemento invisível para efeitos de confete de emoji -->
+  <div id="canvas-confetti-container"></div>
+
+  <script src="app.js?v=1.1"></script>
+</body>
+
+</html>
