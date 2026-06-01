@@ -1,0 +1,21 @@
+{
+  "name": "concurso-sosia-psicodelico",
+  "version": "1.0.0",
+  "description": "Um jogo divertido e psicodélico para eleger o melhor sósia entre amigos.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "nodemailer": "^6.9.13"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "devDependencies": {
+    "jimp": "^1.6.1"
+  }
+}
