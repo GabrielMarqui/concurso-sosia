@@ -539,6 +539,20 @@ function startCountdown(startTimeStr) {
 
     const pad = (num) => String(num).padStart(2, '0');
     timerEl.innerText = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+
+    if (hours < 2) {
+      timerEl.style.color = 'var(--color-neon-pink)';
+      timerEl.style.borderColor = 'var(--color-neon-pink)';
+      timerEl.style.boxShadow = '0 0 10px rgba(255, 0, 127, 0.4)';
+    } else if (hours < 8) {
+      timerEl.style.color = 'var(--color-neon-yellow)';
+      timerEl.style.borderColor = 'var(--color-neon-yellow)';
+      timerEl.style.boxShadow = '0 0 10px rgba(255, 234, 0, 0.3)';
+    } else {
+      timerEl.style.color = 'var(--color-neon-cyan)';
+      timerEl.style.borderColor = 'var(--color-neon-cyan)';
+      timerEl.style.boxShadow = '0 0 10px rgba(0, 240, 255, 0.3)';
+    }
   }
 
   updateTimer();
@@ -610,6 +624,7 @@ function renderActiveMatch() {
   const p2Percent = totalVotes > 0 ? Math.round(((match.player2Votes || 0) / totalVotes) * 100) : 50;
 
   const alreadyVoted = localStorage.getItem('voted_match_' + match.id) === 'true';
+  const votedPlayerId = localStorage.getItem('voted_match_player_' + match.id);
 
   activeSection.innerHTML = `
     <div class="glass-card active-match-card">
@@ -619,16 +634,16 @@ function renderActiveMatch() {
           <span style="margin-left:0.5rem; font-weight:bold; color:var(--color-neon-cyan);">${match.label}</span>
         </div>
         <div style="font-size:1.1rem; font-weight:bold; color:var(--color-neon-yellow);">
-          Tempo Restante: <span id="matchCountdown" style="font-family:monospace; font-size:1.2rem; background:rgba(0,0,0,0.3); padding:0.2rem 0.6rem; border-radius:6px; border:1px solid rgba(255,234,0,0.3);">24:00:00</span>
+          Tempo Restante: <span id="matchCountdown" style="font-family:monospace; font-size:1.2rem; background:rgba(0,0,0,0.3); padding:0.2rem 0.6rem; border-radius:6px; border:1px solid rgba(255,234,0,0.3); transition: all 0.3s ease;">24:00:00</span>
         </div>
       </div>
-
-      <div class="battle-duo-container" style="display:grid; grid-template-columns: 1fr auto 1fr; gap:1.5rem; align-items:center; margin-bottom:2rem;">
+      <div class="battle-duo-container ${alreadyVoted ? 'already-voted' : ''}">
         
         <!-- Player 1 -->
         <div class="battle-fighter left" style="text-align:center;">
-          <div class="fighter-image-wrapper" style="position:relative; width:100%; height:280px; border-radius:15px; overflow:hidden; border:3px solid ${alreadyVoted && p1Percent >= p2Percent ? 'var(--color-neon-green)' : 'rgba(255,255,255,0.15)'}; box-shadow:${alreadyVoted && p1Percent >= p2Percent ? '0 0 20px rgba(57,255,20,0.3)' : '0 10px 20px rgba(0,0,0,0.3)'}; transition:all 0.3s;">
+          <div class="fighter-image-wrapper" ${!alreadyVoted ? `onclick="voteInTournament('${player1.id}')"` : ''} style="position:relative; width:100%; height:280px; border-radius:15px; overflow:hidden; border:3px solid ${alreadyVoted ? (votedPlayerId === player1.id ? 'var(--color-neon-green)' : 'rgba(255,255,255,0.05)') : 'rgba(255,255,255,0.15)'}; box-shadow:${alreadyVoted ? (votedPlayerId === player1.id ? '0 0 25px rgba(57,255,20,0.4)' : 'none') : '0 10px 20px rgba(0,0,0,0.3)'}; transition:all 0.3s; cursor:${alreadyVoted ? 'default' : 'pointer'};">
             <img src="${player1.image}" style="width:100%; height:100%; object-fit:cover;">
+            ${alreadyVoted && votedPlayerId === player1.id ? `<div style="position:absolute; top:12px; left:12px; background:linear-gradient(135deg, var(--color-neon-cyan), var(--color-neon-green)); color:#000; padding:0.4rem 0.8rem; border-radius:30px; font-weight:bold; font-size:0.85rem; box-shadow:0 0 10px var(--color-neon-green); z-index: 3;">SEU VOTO 👈</div>` : ''}
             ${alreadyVoted ? `<div class="votes-badge" style="position:absolute; bottom:12px; right:12px; top:auto;">${match.player1Votes} votos</div>` : ''}
           </div>
           <h3 style="font-family:var(--font-title); font-size:1.4rem; color:#fff; margin:1rem 0 0.2rem;">${player1.lookalikeName}</h3>
@@ -645,8 +660,9 @@ function renderActiveMatch() {
 
         <!-- Player 2 -->
         <div class="battle-fighter right" style="text-align:center;">
-          <div class="fighter-image-wrapper" style="position:relative; width:100%; height:280px; border-radius:15px; overflow:hidden; border:3px solid ${alreadyVoted && p2Percent >= p1Percent ? 'var(--color-neon-green)' : 'rgba(255,255,255,0.15)'}; box-shadow:${alreadyVoted && p2Percent >= p1Percent ? '0 0 20px rgba(57,255,20,0.3)' : '0 10px 20px rgba(0,0,0,0.3)'}; transition:all 0.3s;">
+          <div class="fighter-image-wrapper" ${!alreadyVoted ? `onclick="voteInTournament('${player2.id}')"` : ''} style="position:relative; width:100%; height:280px; border-radius:15px; overflow:hidden; border:3px solid ${alreadyVoted ? (votedPlayerId === player2.id ? 'var(--color-neon-green)' : 'rgba(255,255,255,0.05)') : 'rgba(255,255,255,0.15)'}; box-shadow:${alreadyVoted ? (votedPlayerId === player2.id ? '0 0 25px rgba(57,255,20,0.4)' : 'none') : '0 10px 20px rgba(0,0,0,0.3)'}; transition:all 0.3s; cursor:${alreadyVoted ? 'default' : 'pointer'};">
             <img src="${player2.image}" style="width:100%; height:100%; object-fit:cover;">
+            ${alreadyVoted && votedPlayerId === player2.id ? `<div style="position:absolute; top:12px; left:12px; background:linear-gradient(135deg, var(--color-neon-cyan), var(--color-neon-green)); color:#000; padding:0.4rem 0.8rem; border-radius:30px; font-weight:bold; font-size:0.85rem; box-shadow:0 0 10px var(--color-neon-green); z-index: 3;">SEU VOTO 👈</div>` : ''}
             ${alreadyVoted ? `<div class="votes-badge" style="position:absolute; bottom:12px; right:12px; top:auto;">${match.player2Votes} votos</div>` : ''}
           </div>
           <h3 style="font-family:var(--font-title); font-size:1.4rem; color:#fff; margin:1rem 0 0.2rem;">${player2.lookalikeName}</h3>
@@ -990,6 +1006,7 @@ async function submitVote(id, password) {
         const activeMatch = tournament.matches[tournament.currentMatchIndex];
         if (activeMatch) {
           localStorage.setItem('voted_match_' + activeMatch.id, 'true');
+          localStorage.setItem('voted_match_player_' + activeMatch.id, id);
         }
       }
 

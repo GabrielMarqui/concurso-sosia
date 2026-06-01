@@ -95,9 +95,6 @@ body {
   background: rgba(13, 6, 20, 0.7);
   backdrop-filter: blur(10px);
   border-bottom: 2px solid rgba(255, 0, 127, 0.3);
-  position: sticky;
-  top: 0;
-  z-index: 10;
 }
 
 .logo-area {
@@ -1060,6 +1057,32 @@ footer.app-footer {
 
 .battle-duo-container {
   margin-top: 1rem;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 1.5rem;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.battle-fighter {
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Hover effects for inactive state */
+.battle-duo-container:not(.already-voted) .battle-fighter:hover {
+  transform: scale(1.04);
+  filter: drop-shadow(0 0 15px rgba(0, 240, 255, 0.3));
+}
+
+.battle-duo-container:not(.already-voted) .battle-fighter:hover .fighter-image-wrapper {
+  border-color: var(--color-neon-cyan) !important;
+  box-shadow: 0 0 25px rgba(0, 240, 255, 0.5) !important;
+}
+
+/* Fade out the opponent on hover */
+.battle-duo-container:not(.already-voted):hover .battle-fighter:not(:hover) {
+  opacity: 0.5;
+  filter: grayscale(0.3) blur(1px);
 }
 
 .fighter-image-wrapper {
@@ -1339,6 +1362,9 @@ footer.app-footer {
 
 /* Responsivo celular */
 @media (max-width: 768px) {
+  .glass-card {
+    padding: 1.5rem;
+  }
   .bracket-section {
     padding: 1.5rem;
   }
